@@ -14,5 +14,7 @@ namespace BasicTaskManager.Models
 		public User User { get; set; }
 
 		public DateTime ExpiresOn { get; set; }
+
+		public bool IsExpired { get; set; }
 	}
 }

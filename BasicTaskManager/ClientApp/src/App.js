@@ -5,6 +5,7 @@ import { Home } from './components/Home';
 import { Auth } from './components/Auth';
 import { Registration } from "./components/Registration"
 
+
 import './custom.css'
 
 export default class App extends Component {
@@ -20,3 +21,4 @@ export default class App extends Component {
 		);
 	}
 }
+

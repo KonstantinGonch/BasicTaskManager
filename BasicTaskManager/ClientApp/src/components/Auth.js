@@ -1,7 +1,44 @@
 ﻿import React, { Component } from 'react';
 import './Auth.css';
+import axios from 'axios';
+
 
 export class Auth extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			user: {
+				Login: "",
+				Password: ""
+			}
+		}
+
+		this.onPasswordChange = this.onPasswordChange.bind(this);
+		this.onLoginChange = this.onLoginChange.bind(this);
+		this.onEnterClick = this.onEnterClick.bind(this);
+	}
+
+	async onEnterClick(e) {
+		e.preventDefault();
+		let res = await axios.get("/user/authorize?password=" + this.state.user.Password + "&login=" + this.state.user.Login);
+	}
+
+	onLoginChange(e) {
+		let newState = Object.assign({}, this.state);
+		newState.user.Login = e.target.value;
+		this.setState(newState);
+	}
+
+	onPasswordChange(e) {
+		let newState = Object.assign({}, this.state);
+		newState.user.Password = e.target.value;
+		this.setState(newState);
+	}
+
+	onRegisterClick(e) {
+		e.preventDefault();
+		window.open("/register","_self");
+	}
 
 	render() {
 		return (
@@ -18,14 +55,14 @@ export class Auth extends Component {
 							<form>
 								<div class="form-group">
 									<label>Логин</label>
-									<input type="text" class="form-control" placeholder="Логин" />
+									<input type="text" class="form-control" placeholder="Логин" value={this.state.user.Login} onChange={this.onLoginChange} />
 								</div>
 								<div class="form-group">
 									<label>Пароль</label>
-									<input type="password" class="form-control" placeholder="Пароль" />
+									<input type="password" class="form-control" placeholder="Пароль" value={this.state.user.Password} onChange={this.onPasswordChange}/>
 								</div>
-								<button type="submit" class="btn btn-black">Вход</button>
-								<button type="submit" class="btn btn-secondary">Регистрация</button>
+								<button type="submit" class="btn btn-black" onClick={this.onEnterClick}>Вход</button>
+								<button type="submit" class="btn btn-secondary" onClick={ this.onRegisterClick}>Регистрация</button>
 							</form>
 						</div>
 					</div>

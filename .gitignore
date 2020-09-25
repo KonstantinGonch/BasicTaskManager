@@ -339,3 +339,5 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /BasicTaskManager/appdata.db
+/BasicTaskManager/appdata.db-wal
+/BasicTaskManager/appdata.db-shm
