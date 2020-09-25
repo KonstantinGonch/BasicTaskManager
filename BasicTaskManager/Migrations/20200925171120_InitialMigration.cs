@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BasicTaskManager.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,6 +53,7 @@ namespace BasicTaskManager.Migrations
                     FullDescription = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     Deadline = table.Column<DateTime>(nullable: false),
+                    Done = table.Column<bool>(nullable: false),
                     UserId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>

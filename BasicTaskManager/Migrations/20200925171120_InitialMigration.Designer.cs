@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BasicTaskManager.Migrations
 {
-    [DbContext(typeof(AppContext))]
-    [Migration("20200922111227_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(TaskManagerContext))]
+    [Migration("20200925171120_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,6 +51,9 @@ namespace BasicTaskManager.Migrations
 
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("Done")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("FullDescription")
                         .HasColumnType("TEXT");

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BasicTaskManager.Models
 {
-	public class ApplicationContext : DbContext
+	public class TaskManagerContext : DbContext
 	{
 		public DbSet<User> Users { get; set; }
 		public DbSet<AuthToken> AuthTokens { get; set; }

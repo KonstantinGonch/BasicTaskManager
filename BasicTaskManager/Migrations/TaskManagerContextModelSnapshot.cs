@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BasicTaskManager.Migrations
 {
-    [DbContext(typeof(AppContext))]
-    partial class AppContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(TaskManagerContext))]
+    partial class TaskManagerContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,9 @@ namespace BasicTaskManager.Migrations
 
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("Done")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("FullDescription")
                         .HasColumnType("TEXT");
