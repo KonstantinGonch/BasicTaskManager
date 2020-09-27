@@ -60,5 +60,35 @@ namespace BasicTaskManager.Controllers
 				return task;
 			}
 		}
+
+		[HttpPost]
+		public async Task<ActionResult<Models.Task>> AddTask([FromBody] TaskModel taskModel)
+		{
+			if (!string.IsNullOrEmpty(taskModel.UserToken))
+			{
+				using (TaskManagerContext ctx = new TaskManagerContext())
+				{
+					Models.Task task = taskModel.Task;
+					task.CreatedAt = DateTime.Now;
+
+					User user = this.GetUserByToken(taskModel.UserToken);
+					if (user != null)
+					{
+						task.UserId = user.Id;
+						ctx.Tasks.Add(task);
+						await ctx.SaveChangesAsync();
+						task.User = null;
+						return task;
+					}
+				}
+			}
+			return null;
+		}
+	}
+
+	public class TaskModel
+	{
+		public string UserToken { get; set; }
+		public Models.Task Task { get; set; }
 	}
 }

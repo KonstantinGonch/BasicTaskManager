@@ -4,6 +4,7 @@ import { Layout } from './components/Layout';
 import { Auth } from './components/Auth';
 import { Registration } from "./components/Registration"
 import { TaskList } from './components/TaskList';
+import { NewTask } from './components/NewTask';
 
 import './custom.css'
 
@@ -16,6 +17,7 @@ export default class App extends Component {
 				<Route exact path='/' component={Auth} />
 				<Route exact path='/register' component={Registration} />
 				<Route exact path='/tasklist' component={TaskList} />
+				<Route exact path='/newtask' component={NewTask}/>
 			</Layout>
 		);
 	}

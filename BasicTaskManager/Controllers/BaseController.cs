@@ -16,7 +16,7 @@ namespace BasicTaskManager.Controllers
 			{
 				AuthToken dbToken = ctx.AuthTokens.FirstOrDefault(t => t.Key== token);
 
-				if (dbToken == null || dbToken.IsExpired || dbToken.ExpiresOn > DateTime.Now)
+				if (dbToken == null || dbToken.IsExpired || dbToken.ExpiresOn < DateTime.Now)
 					return false;
 
 				return true;
