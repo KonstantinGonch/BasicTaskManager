@@ -27,6 +27,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200927123844_AuthKeyString.cs" />
+    <Compile Remove="Migrations\20200927123844_AuthKeyString.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Migrations\" />
   </ItemGroup>
 

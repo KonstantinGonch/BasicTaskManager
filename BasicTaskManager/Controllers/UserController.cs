@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace BasicTaskManager.Controllers
 {
-	public class UserController : Controller
+	public class UserController : BaseController
 	{
 		[HttpPost]
-		public async Task<ActionResult<User>> RegisterUser([FromBody]User user)
+		public async Task<ActionResult<User>> RegisterUser([FromBody] User user)
 		{
 			using (TaskManagerContext ctx = new TaskManagerContext())
 			{
@@ -39,15 +39,55 @@ namespace BasicTaskManager.Controllers
 
 				if (SecurityUtil.VerifyHashedPassword(dbUser.Password, user.Password))
 				{
-					AuthToken token = new AuthToken { Key = Guid.NewGuid(), UserId = dbUser.Id, ExpiresOn = DateTime.Today.AddDays(2), IsExpired = false };
+					AuthToken token = new AuthToken { Key = Guid.NewGuid().ToString(), UserId = dbUser.Id, ExpiresOn = DateTime.Today.AddDays(2), IsExpired = false };
 					ctx.AuthTokens.Add(token);
 					await ctx.SaveChangesAsync();
 
-					token.Key = new Guid();
+					token.User = null;
 					return token;
 				}
 				return null;
 			}
+		}
+
+		public ActionResult<bool> IsTokenActive(string token)
+		{
+			if (!string.IsNullOrEmpty(token))
+			{
+				using (TaskManagerContext ctx = new TaskManagerContext())
+				{
+					AuthToken dbToken = ctx.AuthTokens.FirstOrDefault(t => t.Key == token);
+					if (dbToken != null && !dbToken.IsExpired && dbToken.ExpiresOn > DateTime.Now)
+					{
+						return true;
+					}
+					return false;
+				}
+			}
+			return false;
+		}
+
+		public async Task<bool> FinishSession(string token)
+		{
+			if (!string.IsNullOrEmpty(token))
+			{
+				using (TaskManagerContext ctx = new TaskManagerContext())
+				{
+
+					AuthToken dbToken = ctx.AuthTokens.FirstOrDefault(t => t.Key == token);
+					if (dbToken != null)
+					{
+						dbToken.IsExpired = true;
+						await ctx.SaveChangesAsync();
+
+						dbToken.User = null;
+						dbToken.Key = new Guid().ToString();
+						return true;
+					}
+					return false;
+				}
+			}
+			return false;
 		}
 	}
 }

@@ -18,9 +18,27 @@ export class Auth extends Component {
 		this.onEnterClick = this.onEnterClick.bind(this);
 	}
 
+	componentDidMount() {
+
+		let authKey = localStorage.getItem("authKey");
+
+		axios.get("/user/istokenactive?token=" + authKey)
+			.then((result) => {
+				if (result && result.data) {
+					window.open("/tasklist","_self");
+				}
+			});
+	}
+
 	async onEnterClick(e) {
 		e.preventDefault();
 		let res = await axios.get("/user/authorize?password=" + this.state.user.Password + "&login=" + this.state.user.Login);
+
+		if (res && res.data) {
+			localStorage.setItem("authKey", res.data.key);
+
+			window.open("/tasklist", "_self");
+		}
 	}
 
 	onLoginChange(e) {
@@ -37,7 +55,7 @@ export class Auth extends Component {
 
 	onRegisterClick(e) {
 		e.preventDefault();
-		window.open("/register","_self");
+		window.open("/register", "_self");
 	}
 
 	render() {
@@ -59,10 +77,10 @@ export class Auth extends Component {
 								</div>
 								<div class="form-group">
 									<label>Пароль</label>
-									<input type="password" class="form-control" placeholder="Пароль" value={this.state.user.Password} onChange={this.onPasswordChange}/>
+									<input type="password" class="form-control" placeholder="Пароль" value={this.state.user.Password} onChange={this.onPasswordChange} />
 								</div>
 								<button type="submit" class="btn btn-black" onClick={this.onEnterClick}>Вход</button>
-								<button type="submit" class="btn btn-secondary" onClick={ this.onRegisterClick}>Регистрация</button>
+								<button type="submit" class="btn btn-secondary" onClick={this.onRegisterClick}>Регистрация</button>
 							</form>
 						</div>
 					</div>
